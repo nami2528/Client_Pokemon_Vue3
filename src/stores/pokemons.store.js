@@ -24,6 +24,7 @@ export const usePokemonsStore = defineStore({
                 this.pokemon = { error };
                 const alertStore = useAlertStore();
                 alertStore.error(error);
+                throw error;
             }
         },
         async getAll(params) {
@@ -38,6 +39,7 @@ export const usePokemonsStore = defineStore({
                 const alertStore = useAlertStore();
                 alertStore.error(error);
                 this.pokemons = { error };
+                throw error;
             }
         },
         async getById(id) {
@@ -48,16 +50,19 @@ export const usePokemonsStore = defineStore({
                 this.pokemon = { error };
                 const alertStore = useAlertStore();
                 alertStore.error(error);
+                throw error;
             }
         },
         async update(id, params) {
             this.pokemon = { loading: true };
             try {
                 this.pokemon = await fetchWrapper.put(`${baseUrl}/pokemon/${id}`, params);
-            } catch (error) {
+            } catch (error) {      
+                console.log(error);          
                 this.pokemon = { error };
                 const alertStore = useAlertStore();
                 alertStore.error(error);
+                throw error;
             }
         },
         async delete(id) {
